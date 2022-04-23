@@ -14,8 +14,10 @@ router.get('/', function (req, res, next) {
                     content: rows,
                 };
                 res.render('hello/index', data);
+            } else {
+                console.error(err);
             }
-            console.error(err);
+
         });
     });
 });
@@ -78,6 +80,30 @@ router.post('/edit', (req, res, next) => {
     const ag = req.body.age;
     const q = 'update mydata set name = ?, mail = ?, age = ? where id = ?';
     db.run(q, nm, ml, ag, id);
+    res.redirect('/hello');
+});
+
+router.get('/delete', (req, res, next) => {
+    const id = req.query.id ?? 1;
+    db.serialize(() => {
+        const q = 'select * from mydata where id = ?';
+        db.get(q, [id], (err, row) => {
+            if (!err) {
+                const data = {
+                    title: 'hello/Delete',
+                    content: `id = ${id}のレコードを削除`,
+                    mydata: row
+                };
+                res.render('hello/delete', data);
+            }
+        });
+    });
+});
+
+router.post('/delete', (req, res, next) => {
+    const id = req.body.id;
+    const q = 'delete from mydata where id = ?';
+    db.run(q, id);
     res.redirect('/hello');
 });
 
