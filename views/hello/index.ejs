@@ -28,6 +28,20 @@
         <% } %>
       </table>
     </div>
+    <div>
+      <span>
+        <a href="/hello/1">&lt;&lt; Fisrt</a>
+      </span>
+      <span>
+        <a href="<%= pagination.page - 1 %>">&lt;&lt; prev</a>
+      </span>
+      <span>
+        <a href="<%= pagination.page + 1 %>">Next &gt;&gt;</a>
+      </span>
+      <span>
+        <a href="<%= pagination.pageCount %>">Last &gt;&gt;</a>
+      </span>
+    </div>
   </body>
 
 </html>
